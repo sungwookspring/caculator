@@ -22,6 +22,14 @@
 <body>
 
 <table border="1">
+    <!--  입력 리스너   -->
+    <script>
+        function charToinput(char){
+            var display = document.getElementById('display');
+            display.value = display.value + char;
+        }
+    </script>
+
     <!-- 사용자 입력    -->
     <tr>
         <td colspan="4">
@@ -39,25 +47,25 @@
         <td>/</td>
     </tr>
     <tr>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
+        <td onclick="charToinput('7')">7</td>
+        <td onclick="charToinput('8')">8</td>
+        <td onclick="charToinput('9')">9</td>
         <td>*</td>
     </tr>
     <tr>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
+        <td onclick="charToinput('4')">4</td>
+        <td onclick="charToinput('5')">5</td>
+        <td onclick="charToinput('6')">6</td>
         <td>-</td>
     </tr>
     <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
+        <td onclick="charToinput('1')">1</td>
+        <td onclick="charToinput('2')">2</td>
+        <td onclick="charToinput('3')">3</td>
         <td>+</td>
     </tr>
     <tr>
-        <td colspan="2">0</td>
+        <td colspan="2" onclick="charToinput('0')">0</td>
         <td>.</td>
         <td>=</td>
     </tr>
