@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>계산기</title>
@@ -24,9 +24,35 @@
 <table border="1">
     <!--  입력 리스너   -->
     <script>
+        var outputStack = NaN;
+
         function charToinput(char){
             var display = document.getElementById('display');
             display.value = display.value + char;
+        }
+
+        function caculator(operator){
+            if(isNaN(outputStack)){
+                outputStack = operator;
+
+                var value = document.getElementById('display').value;
+                outputStack = value;
+                value = '';
+            }
+
+            else{
+                switch (operator){
+                    case '*':
+                        var arg = document.getElementById('display').value;
+                        console.log(arg);
+
+                        const xmlhttp = new XMLHttpRequest();
+                        xmlhttp.open("GET", "/Multiply?arg1=" + outputStack + "&arg2=" + arg, false);
+                        xmlhttp.send(null);
+                        console.log(xmlhttp.responseText);
+                        break;
+                }
+            }
         }
     </script>
 
@@ -50,7 +76,7 @@
         <td onclick="charToinput('7')">7</td>
         <td onclick="charToinput('8')">8</td>
         <td onclick="charToinput('9')">9</td>
-        <td>*</td>
+        <td onclick="caculator('*')">*</td>
     </tr>
     <tr>
         <td onclick="charToinput('4')">4</td>
@@ -69,7 +95,6 @@
         <td>.</td>
         <td>=</td>
     </tr>
-
 
 </table>
 
