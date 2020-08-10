@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -25,33 +26,43 @@
     <!--  입력 리스너   -->
     <script>
         var outputStack = NaN;
+        var step = 0; //step=0: 아웃풋 값 없음. step=1: 연산모드, step=2 입력모드
 
         function charToinput(char){
-            var display = document.getElementById('display');
-            display.value = display.value + char;
+            if(step == 2){
+                document.getElementById('display').value = '';
+                step = 1;
+            }
+            document.getElementById('display').value = document.getElementById('display').value + char;
         }
 
         function caculator(operator){
-            if(isNaN(outputStack)){
-                outputStack = operator;
-
-                var value = document.getElementById('display').value;
-                outputStack = value;
-                value = '';
+            if(step == 0){
+                outputStack = document.getElementById('display').value;
+                document.getElementById('display').value = '';
+                step = 1;
             }
-
-            else{
+            else if(step == 1){
                 switch (operator){
-                    case '*':
-                        var arg = document.getElementById('display').value;
-                        console.log(arg);
+                    case '+':
+                        var operand = document.getElementById('display').value;
 
-                        const xmlhttp = new XMLHttpRequest();
-                        xmlhttp.open("GET", "/Multiply?arg1=" + outputStack + "&arg2=" + arg, false);
-                        xmlhttp.send(null);
-                        console.log(xmlhttp.responseText);
+                        $.ajax({
+                            url: "/Add?arg1=" + outputStack + "&arg2=" + operand,
+                            method: "GET"
+                        })
+                        .done(function(json){
+                            result = json['result'];
+                            document.getElementById('display').value = result;
+                            outputStack = result;
+                        })
+                        // .fail(function(){
+                        //     console.log('failed to connect the server');
+                        // })
                         break;
                 }
+
+                step = 2;
             }
         }
     </script>
@@ -88,7 +99,7 @@
         <td onclick="charToinput('1')">1</td>
         <td onclick="charToinput('2')">2</td>
         <td onclick="charToinput('3')">3</td>
-        <td>+</td>
+        <td onclick="caculator('+')">+</td>
     </tr>
     <tr>
         <td colspan="2" onclick="charToinput('0')">0</td>
